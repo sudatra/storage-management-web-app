@@ -165,7 +165,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
       </Form>
 
       {
-        true && <OTPModal email={form.getValues('email')} accountId={accountId} />
+        accountId && <OTPModal email={form.getValues('email')} accountId={accountId} />
       }
     </>
   )
