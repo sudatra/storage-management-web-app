@@ -82,6 +82,6 @@ export const sortTypes = [
 ];
 
 export const avatarPlaceholderUrl =
-  "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?semt=ais_hybrid";
+  "https://img.freepik.com/free-psd/3d-render-avatar-character_23-2150611765.jpg"
 
 export const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
