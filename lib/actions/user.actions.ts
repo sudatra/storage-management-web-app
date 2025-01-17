@@ -1,6 +1,6 @@
 'use server'
 
-import { ID, Query } from "node-appwrite";
+import { ID, Query, OAuthProvider } from "node-appwrite";
 import { createAdminClient, createSessionClient } from "../appwrite";
 import { appwriteConfig } from "../appwrite/config";
 import { parseStringify } from "../utils";
@@ -128,3 +128,59 @@ export const signInUser = async ({ email }: { email: string }) => {
     handleError(error, "Failed to sign in user");
   }
 }
+
+// export const signInWIthGoogle = async () => {
+//   const { account, databases } = await createAdminClient();
+
+//   try {
+//     const token = await account.createOAuth2Token(
+//       OAuthProvider.Google,
+//       process.env.GOOGLE_OAUTH_REDIRECT_URI,
+//       'http://localhost:3000/sign-in'
+//     );
+
+//     const urlParams = new URL(token).searchParams;
+//     const userId = urlParams.get('userId');
+//     const secret = urlParams.get('secret');
+
+//     if(!userId || !secret) {
+//       throw new Error('Authentication Failed');
+//     }
+
+//     const session = await account.createSession(userId, secret);
+//     (await cookies()).set('appwrite-session', session.secret, {
+//       path: '/',
+//       httpOnly: true,
+//       sameSite: 'strict',
+//       secure: true
+//     });
+
+//     const accountDetails = await account.get();
+//     const existingUser = await databases.listDocuments(
+//       appwriteConfig.databaseId,
+//       appwriteConfig.usersCollectionId,
+//       [Query.equal('email', accountDetails.email)]
+//     );
+
+//     if(existingUser.total > 0) {
+//       redirect('/');
+//     }
+
+//     await databases.createDocument(
+//       appwriteConfig.databaseId,
+//       appwriteConfig.usersCollectionId,
+//       ID.unique(),
+//       {
+//         fullName: accountDetails.name,
+//         email: accountDetails.email,
+//         avatar: accountDetails.prefs?.avatar || avatarPlaceholderUrl,
+//         accountId: accountDetails.$id
+//       }
+//     );
+
+//     redirect('/')
+//   }
+//   catch(error) {
+//     handleError(error, "Google Sign-in Failed");
+//   }
+// }
