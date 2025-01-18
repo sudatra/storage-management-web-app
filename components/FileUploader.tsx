@@ -6,20 +6,54 @@ import { Button } from './ui/button'
 import { cn, convertFileToUrl, getFileType } from '@/lib/utils'
 import Image from 'next/image'
 import { Thumbnail } from './Thumbnail'
+import { MAX_FILE_SIZE } from '@/constants'
+import { useToast } from '@/hooks/use-toast'
+import { uploadFile } from '@/lib/actions/file.actions'
+import { usePathname } from 'next/navigation'
 
 interface Props {
+  ownerId: string;
   accountId: string;
   className?: string;
 }
 
 
-const FileUploader = ({ accountId, className }: Props) => {
+const FileUploader = ({ ownerId, accountId, className }: Props) => {
+  const path = usePathname();
   const [files, setFiles] = useState<File[]>([])
+  const { toast } = useToast()
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
-    setFiles(acceptedFiles)
-  }, [])
-  const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
+    setFiles(acceptedFiles);
+    const uploadPromises = acceptedFiles.map(async (file) => {
+      if(file.size > MAX_FILE_SIZE) {
+        setFiles((prevFiles) => prevFiles.filter((f) => (
+          f.name !== file.name
+        )));
+
+        return toast({
+          description: (
+            <p className='body-2 text-white'>
+              <span className='font-semibold'>{file.name}</span> is too large, max size is 50MB.
+            </p>
+          ),
+          className: "error-toast"
+        })
+      }
+
+      return uploadFile({ file, accountId, ownerId, path })
+      .then((uploadedFile) => {
+        if(uploadedFile) {
+          setFiles((prevFiles) => prevFiles.filter((f) => (
+            f.name !== file.name
+          )));
+        }
+      })
+    });
+
+    await Promise.all(uploadPromises);
+  }, [ownerId, accountId, path])
+  const {getRootProps, getInputProps} = useDropzone({onDrop})
 
   const handleRemoveFile = (e: React.MouseEvent<HTMLImageElement, MouseEvent>, fileName: string) => {
     e.stopPropagation();
@@ -92,12 +126,6 @@ const FileUploader = ({ accountId, className }: Props) => {
             }
           </ul>
         )
-      }
-
-      {
-        isDragActive ?
-          <p>Drop the files here ...</p> :
-          <p>Drag 'n' drop some files here, or click to select files</p>
       }
     </div>
   )
