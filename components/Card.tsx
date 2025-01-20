@@ -27,7 +27,7 @@ export const Card = async ({ file }: { file: Models.Document }) => {
         <div className='flex flex-col items-end justify-between'>
           ActionsDropdown
 
-          <p className='body-1'>{(file.size)}</p>
+          <p className='body-1'>{convertFileSize(file.size)}</p>
         </div>
       </div>
 
