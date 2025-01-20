@@ -4,8 +4,11 @@ import React from 'react'
 import { Thumbnail } from './Thumbnail'
 import { convertFileSize } from '@/lib/utils'
 import { FormattedDateTime } from './FormattedDateTime'
+import { getUserById } from '@/lib/actions/user.actions'
 
-export const Card = ({ file }: { file: Models.Document }) => {
+export const Card = async ({ file }: { file: Models.Document }) => {
+  const fileOwner = await getUserById(file.ownerId);
+
   return (
     <Link 
       href={file.url}
@@ -30,7 +33,15 @@ export const Card = ({ file }: { file: Models.Document }) => {
 
       <div className='file-card-details'>
         <p className='subtitle-2 line-clamp-1'>{file.name}</p>
-        <FormattedDateTime />
+        <FormattedDateTime 
+          date={file.$createdAt}
+          className="body-2 text-light-100"
+        />
+        {
+          fileOwner && (
+            <p className='caption line-clamp-1 text-light-200'>By: {fileOwner.fullName}</p>
+          )
+        }
       </div>
     </Link>
   )
