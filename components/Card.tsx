@@ -5,6 +5,7 @@ import { Thumbnail } from './Thumbnail'
 import { convertFileSize } from '@/lib/utils'
 import { FormattedDateTime } from './FormattedDateTime'
 import { getUserById } from '@/lib/actions/user.actions'
+import { ActionsDropdown } from './ActionsDropdown'
 
 export const Card = async ({ file }: { file: Models.Document }) => {
   const fileOwner = await getUserById(file.ownerId);
@@ -25,7 +26,7 @@ export const Card = async ({ file }: { file: Models.Document }) => {
         />
 
         <div className='flex flex-col items-end justify-between'>
-          ActionsDropdown
+          <ActionsDropdown file={file} />
 
           <p className='body-1'>{convertFileSize(file.size)}</p>
         </div>
