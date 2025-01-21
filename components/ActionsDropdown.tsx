@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Dialog } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,10 +13,28 @@ import {
 import Image from 'next/image'
 import { Models } from 'node-appwrite'
 import { actionsDropdownItems } from '@/constants'
+import Link from 'next/link'
+import { constructDownloadUrl } from '@/lib/utils'
+import { DialogDescription, DialogTitle } from '@radix-ui/react-dialog'
 
 export const ActionsDropdown = ({ file }: { file: Models.Document }) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
+  const [action, setAction] = useState<ActionType | null>(null);
+
+  const renderDialogContent = () => {
+    return (
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Are you absolutely sure?</DialogTitle>
+          <DialogDescription>
+            This action cannot be undone. This will permanently delete your account
+            and remove your data from our servers.
+          </DialogDescription>
+        </DialogHeader>
+      </DialogContent>
+    )
+  }
 
   return (
     <Dialog
@@ -46,15 +64,50 @@ export const ActionsDropdown = ({ file }: { file: Models.Document }) => {
           {
             actionsDropdownItems.map((actionItem) => (
               <DropdownMenuItem 
-                key={actionItem.value}
+                key={actionItem.value}  
                 className='shad-dropdown-item'
+                onClick={() => {
+                  setAction(actionItem);
+
+                  if(['rename', 'share', 'delete', 'details'].includes(actionItem.value)) {
+                    setIsModalOpen(true);
+                  }
+                }}
               >
-                  {actionItem.label}
+                {
+                  actionItem.value === 'download' ? (
+                    <Link 
+                      href={constructDownloadUrl(file.bucketFileId)}
+                      download={file.name}
+                      className='flex items-center gap-2'
+                    >
+                      <Image 
+                        src={actionItem.icon}
+                        alt='icon'
+                        width={30}
+                        height={30}
+                      />
+                      {actionItem.label}
+                    </Link>
+                  ) : (
+                    <div className='flex items-center gap-2'>
+                      <Image 
+                        src={actionItem.icon}
+                        alt='icon'
+                        width={30}
+                        height={30}
+                      />
+                      {actionItem.label}
+                    </div>
+                  )
+                }
               </DropdownMenuItem>
             ))
           }
         </DropdownMenuContent>
       </DropdownMenu>
+
+      {renderDialogContent()}
     </Dialog>
   )
 }
