@@ -72,7 +72,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
           onSubmit={form.handleSubmit(onSubmit)} 
           className="auth-form"
         >
-          <h1 className='form-title'>{type === 'sign-in' ? 'Sign In' : 'Sign Up'}</h1>
+          <h1 className='form-title dark:!text-gray-300'>{type === 'sign-in' ? 'Sign In' : 'Sign Up'}</h1>
 
           {
             type === "sign-up" && (
@@ -82,7 +82,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
                 render={({ field }) => (
                   <FormItem>
                     <div className='shad-form-item'>
-                      <FormLabel className='shad-form-label'>Full Name</FormLabel>
+                      <FormLabel className='shad-form-label dark:!text-gray-300'>Full Name</FormLabel>
 
                       <FormControl>
                         <Input 
@@ -106,7 +106,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
             render={({ field }) => (
               <FormItem>
                 <div className='shad-form-item'>
-                  <FormLabel className='shad-form-label'>Email</FormLabel>
+                  <FormLabel className='shad-form-label dark:!text-gray-300'>Email</FormLabel>
 
                   <FormControl>
                     <Input 
@@ -123,7 +123,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
           />
 
           <Button 
-            className='form-submit-button'
+            className='form-submit-button !text-gray-100'
             type="submit"
             disabled={isLoading}
           >
@@ -148,7 +148,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
           }
 
           <div className='body-2 flex justify-center'>
-            <p className='text-light-100'>
+            <p className='text-light-100 dark:text-gray-300'>
               {
                 type === 'sign-in'
                 ? "Don't have an Account?"

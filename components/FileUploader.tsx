@@ -72,9 +72,9 @@ const FileUploader = ({ ownerId, accountId, className }: Props) => {
     <>
       <div 
         onClick={toggleTheme}
-        className='cursor-pointer'
+        className='cursor-pointer dark:text-white'
       >
-        Theme Toggle
+        toggleTheme
       </div>
 
       <div

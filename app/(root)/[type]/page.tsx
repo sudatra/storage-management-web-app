@@ -11,7 +11,7 @@ const Page = async ({ params }: SearchParamProps) => {
   const files = await getFiles();
 
   return (
-    <div className='page-container dar'>
+    <div className='page-container dark:!bg-[#1a1c20]'>
       <section className='w-full'>
         <h1 className='h1 dark:text-white'>{type}</h1>
 

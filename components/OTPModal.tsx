@@ -58,9 +58,9 @@ const OTPModal = ({ accountId, email }: { accountId: string, email: string }) =>
       open={isOpen}
       onOpenChange={setIsOpen}
     >
-      <AlertDialogContent className='shad-alert-dialog'>
+      <AlertDialogContent className='shad-alert-dialog dark:!bg-[#1a1c20]'>
         <AlertDialogHeader className='relative flex justify-center'>
-          <AlertDialogTitle className='h2 text-center'>Enter Your OTP</AlertDialogTitle>
+          <AlertDialogTitle className='h2 text-center dark:!text-gray-300'>Enter Your OTP</AlertDialogTitle>
           <Image 
             src='/assets/icons/close-dark.svg'
             alt='close'
@@ -94,7 +94,7 @@ const OTPModal = ({ accountId, email }: { accountId: string, email: string }) =>
           <div className='flex flex-col w-full gap-4'>
             <AlertDialogAction 
               onClick={handleSubmit}
-              className='shad-submit-btn h-12'
+              className='shad-submit-btn h-12 !text-gray-300'
               type='button'
             >
               Submit
@@ -116,7 +116,7 @@ const OTPModal = ({ accountId, email }: { accountId: string, email: string }) =>
               <Button
                 type='button'
                 variant="link"
-                className='pl-1 text-brand'
+                className='pl-1 text-brand dark:!text-gray-300'
                 onClick={handleResendOTP}
               >
                 Click to Resend
