@@ -5,6 +5,7 @@ import { getCurrentUser } from '@/lib/actions/user.actions'
 import { redirect } from 'next/navigation'
 import React from 'react'
 import { Toaster } from '@/components/ui/toaster'
+import { useTheme } from '@/hooks/useTheme'
 
 const layout = async ({ children }: { children: React.ReactNode }) => {
   const currentUser = await getCurrentUser();
@@ -19,6 +20,7 @@ const layout = async ({ children }: { children: React.ReactNode }) => {
 
       <section className='flex h-full flex-1 flex-col'>
         <MobileNavigation {...currentUser} />
+
         <Header 
           userId={currentUser.$id}
           accountId={currentUser.accountId}
