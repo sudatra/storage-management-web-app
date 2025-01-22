@@ -29,7 +29,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
         </div>
       </section>
 
-      <section className='flex flex-1 flex-col items-center bg-white dark:bg-black p-4 py-10 lg:justify-center lg:p-10 lg:py-0'>
+      <section className='flex flex-1 flex-col items-center bg-white dark:bg-[#1a1c20] p-4 py-10 lg:justify-center lg:p-10 lg:py-0'>
         <div className='mb-16 lg:hidden'>
           <Image 
             src='/assets/icons/logo-full-brand.svg'
