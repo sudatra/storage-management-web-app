@@ -27,6 +27,8 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         else {
             document.documentElement.classList.remove("dark");
         }
+
+        localStorage.setItem("theme", theme);
     }, [theme]);
 
     const toggleTheme = () => {
@@ -35,7 +37,9 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
     return (
         <ThemeContext.Provider value={{ theme, toggleTheme }} >
-            {children}
+            <div className={`${theme === 'dark' ? 'dark' : 'light'}`}>
+                {children}
+            </div>
         </ThemeContext.Provider>
     )
 };

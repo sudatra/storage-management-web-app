@@ -26,7 +26,7 @@ const layout = async ({ children }: { children: React.ReactNode }) => {
           accountId={currentUser.accountId}
         />
 
-        <div className='main-content'>
+        <div className='main-content dark:!bg-[#1a1c20]'>
           {children}
         </div>
       </section>

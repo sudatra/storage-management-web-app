@@ -6,10 +6,10 @@ import FileUploader from './FileUploader'
 import { signOutUser } from '@/lib/actions/user.actions'
 const Header = ({ userId, accountId }: { userId: string, accountId: string }) => {
   return (
-    <header className='header'>
+    <header className='header dark:bg-black'>
       <Search />
 
-      <div className='header-wrapper'>
+    <div className='header-wrapper'>
         <FileUploader 
           ownerId={userId}
           accountId={accountId}

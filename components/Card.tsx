@@ -14,7 +14,7 @@ export const Card = async ({ file }: { file: Models.Document }) => {
     <Link 
       href={file.url}
       target='_blank'
-      className='file-card'
+      className='file-card dark:!bg-black'
     >
       <div className='flex justify-between'>
         <Thumbnail 
@@ -33,10 +33,10 @@ export const Card = async ({ file }: { file: Models.Document }) => {
       </div>
 
       <div className='file-card-details'>
-        <p className='subtitle-2 line-clamp-1'>{file.name}</p>
+        <p className='subtitle-2 line-clamp-1 dark:text-[#e5e7eb]'>{file.name}</p>
         <FormattedDateTime 
           date={file.$createdAt}
-          className="body-2 text-light-100"
+          className="body-2 text-light-100 dark:text-[#e5e7eb]"
         />
         {
           fileOwner && (

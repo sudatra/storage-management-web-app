@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { Button } from './ui/button'
 import { cn, convertFileToUrl, getFileType } from '@/lib/utils'
@@ -24,6 +24,10 @@ const FileUploader = ({ ownerId, accountId, className }: Props) => {
   const [files, setFiles] = useState<File[]>([])
   const { toast } = useToast()
   const { theme, toggleTheme } = useTheme();
+
+  useEffect(() => {
+    console.log(theme)
+  }, [theme])
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     setFiles(acceptedFiles);
@@ -72,7 +76,7 @@ const FileUploader = ({ ownerId, accountId, className }: Props) => {
       >
         Theme Toggle
       </div>
-      
+
       <div
         {...getRootProps()}
         className='cursor-pointer'
@@ -89,7 +93,7 @@ const FileUploader = ({ ownerId, accountId, className }: Props) => {
             height={24}
           />{" "}
 
-          <p>Upload</p>
+          <p className='text-white'>Upload</p>
         </Button>
 
         {

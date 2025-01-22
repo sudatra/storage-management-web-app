@@ -11,9 +11,9 @@ const Page = async ({ params }: SearchParamProps) => {
   const files = await getFiles();
 
   return (
-    <div className='page-container'>
+    <div className='page-container dar'>
       <section className='w-full'>
-        <h1 className='h1'>{type}</h1>
+        <h1 className='h1 dark:text-white'>{type}</h1>
 
         <div className='total-size-section'>
           <p className='body-1'>

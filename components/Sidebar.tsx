@@ -17,7 +17,7 @@ const Sidebar = ({ fullName, avatar, email }: Props) => {
   const pathname = usePathname();
 
   return (
-    <aside className='sidebar'>
+    <aside className='sidebar dark:bg-black'>
       <Link href='/'>
         <Image 
           src='/assets/icons/logo-full-brand.svg'
@@ -47,14 +47,14 @@ const Sidebar = ({ fullName, avatar, email }: Props) => {
               >
                 <li className={cn("sidebar-nav-item", (pathname === url) && "shad-active")}>
                   <Image 
-                    className={cn('nav-icon', (pathname === url) && 'nav-icon-active')}
+                    className={cn('nav-icon dark:!invert-0', (pathname === url) && 'nav-icon-active')}
                     src={icon}
                     alt={name}
                     width={24}
                     height={24}
                   />
 
-                  <p className='hidden lg:block'>{name}</p>
+                  <p className='hidden lg:block dark:text-white'>{name}</p>
                 </li>
               </Link>
             ))
@@ -80,8 +80,8 @@ const Sidebar = ({ fullName, avatar, email }: Props) => {
         />
 
         <div className='hidden lg:block'>
-          <p className='subtitle-2 capitalize'>{fullName}</p>
-          <p className='subtitle-2'>{email}</p>
+          <p className='subtitle-2 capitalize dark:text-white'>{fullName}</p>
+          <p className='subtitle-2 dark:text-white'>{email}</p>
         </div>
       </div>
     </aside>
