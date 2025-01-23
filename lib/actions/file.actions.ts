@@ -103,8 +103,6 @@ export const renameFile = async ({ fileId, name, extension, path }: RenameFilePr
       }
     );
 
-    console.log(updatedFile);
-
     revalidatePath(path);
     return parseStringify(updatedFile);
   }
