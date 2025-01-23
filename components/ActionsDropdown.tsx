@@ -18,6 +18,8 @@ import { constructDownloadUrl } from '@/lib/utils'
 import { DialogTitle } from '@radix-ui/react-dialog'
 import { Input } from './ui/input'
 import { Button } from './ui/button'
+import { renameFile } from '@/lib/actions/file.actions'
+import { usePathname } from 'next/navigation'
 
 export const ActionsDropdown = ({ file }: { file: Models.Document }) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -25,6 +27,7 @@ export const ActionsDropdown = ({ file }: { file: Models.Document }) => {
   const [action, setAction] = useState<ActionType | null>(null);
   const [name, setName] = useState<string>(file.name);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const path = usePathname();
 
   const closeAllModals = () => {
     setIsModalOpen(false);
@@ -34,7 +37,23 @@ export const ActionsDropdown = ({ file }: { file: Models.Document }) => {
   }
 
   const handleAction = async () => {
+    if(!action) {
+      return;
+    }
 
+    setIsLoading(true);
+    let success = false;
+
+    const actions = {
+      rename: () => renameFile({ fileId: file.$id, name: name, extension: file.extension, path: path })
+    }
+
+    success = await actions[action.value as keyof typeof actions]();
+    if(success) {
+      closeAllModals();
+    }
+    
+    setIsLoading(false)
   }
 
   const renderDialogContent = () => {
