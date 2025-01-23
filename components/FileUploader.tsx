@@ -11,6 +11,7 @@ import { useToast } from '@/hooks/use-toast'
 import { uploadFile } from '@/lib/actions/file.actions'
 import { usePathname } from 'next/navigation'
 import { useTheme } from '@/hooks/useTheme'
+import { ThemeToggle } from './ThemeToggle'
 
 interface Props {
   ownerId: string;
@@ -24,10 +25,6 @@ const FileUploader = ({ ownerId, accountId, className }: Props) => {
   const [files, setFiles] = useState<File[]>([])
   const { toast } = useToast()
   const { theme, toggleTheme } = useTheme();
-
-  useEffect(() => {
-    console.log(theme)
-  }, [theme])
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     setFiles(acceptedFiles);
@@ -70,12 +67,10 @@ const FileUploader = ({ ownerId, accountId, className }: Props) => {
 
   return (
     <>
-      <div 
+      <ThemeToggle 
         onClick={toggleTheme}
-        className='cursor-pointer dark:text-white'
-      >
-        toggleTheme
-      </div>
+        renderImageType={theme === 'light' ? 'light' : 'dark'}
+      />
 
       <div
         {...getRootProps()}

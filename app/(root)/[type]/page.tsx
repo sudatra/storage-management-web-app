@@ -16,8 +16,8 @@ const Page = async ({ params }: SearchParamProps) => {
         <h1 className='h1 dark:text-white'>{type}</h1>
 
         <div className='total-size-section'>
-          <p className='body-1'>
-            Total: <span className='h5'>0 MB</span>
+          <p className='body-1 dark:!text-light-200'>
+            Total: <span className='h5 dark:!text-gray-300'>0 MB</span>
           </p>
 
           <div className='sort-container'>
