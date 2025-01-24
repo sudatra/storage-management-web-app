@@ -66,7 +66,7 @@ export const ActionsDropdown = ({ file }: { file: Models.Document }) => {
     return (
       <DialogContent className='shad-dialog button'>
         <DialogHeader className='flex flex-col gap-3'>
-          <DialogTitle className='text-center text-light-100'>
+          <DialogTitle className='text-center text-light-100 dark:!text-gray-300'>
             {label}
           </DialogTitle>
 
@@ -86,14 +86,14 @@ export const ActionsDropdown = ({ file }: { file: Models.Document }) => {
             <DialogFooter className='flex flex-col gap-3 md:flex-row'>
               <Button 
                 onClick={closeAllModals}
-                className='modal-cancel-button'
+                className='modal-cancel-button hover:!bg-[#1a1c20] hover:!text-white dark:!bg-[#1a1c20] dark:!text-white dark:hover:!bg-white dark:hover:!text-black'
               >
                 Cancel
               </Button>
 
               <Button 
                 onClick={handleAction}
-                className='modal-submit-button'
+                className='modal-submit-button dark:!text-white !text-black'
               >
                 <p className='capitalize'>{value}</p>
                 {
