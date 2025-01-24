@@ -57,10 +57,6 @@ export const FileDetails = ({ file }: { file: Models.Document }) => {
     fetchFileOwner();
   }, [file.ownerId, cachedFileOwner]);
 
-  useEffect(() => {
-    console.log(cachedFileOwner)
-  }, [cachedFileOwner])
-
   return (
     <>
       <ImageThumbnail file={file} />
