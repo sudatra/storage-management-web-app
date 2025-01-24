@@ -20,6 +20,7 @@ import { Input } from './ui/input'
 import { Button } from './ui/button'
 import { renameFile } from '@/lib/actions/file.actions'
 import { usePathname } from 'next/navigation'
+import { FileDetails } from './ActionsModalContent'
 
 export const ActionsDropdown = ({ file }: { file: Models.Document }) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -77,6 +78,12 @@ export const ActionsDropdown = ({ file }: { file: Models.Document }) => {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
+            )
+          }
+          
+          {
+            value === 'details' && (
+              <FileDetails file={file} />
             )
           }
         </DialogHeader>
