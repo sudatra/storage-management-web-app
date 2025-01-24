@@ -1,7 +1,7 @@
 'use client'
 
 import { Models } from 'node-appwrite'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Thumbnail } from './Thumbnail'
 import { FormattedDateTime } from './FormattedDateTime'
 import { convertFileSize, formatDateTime } from '@/lib/utils'
@@ -9,7 +9,7 @@ import { getUserById } from '@/lib/actions/user.actions'
 
 const ImageThumbnail = ({ file }: { file: Models.Document }) => {
   return (
-    <div className='file-details-thumbnail'>
+    <div className='file-details-thumbnail dark:!bg-[#1a1c20]'>
       <Thumbnail 
         type={file.type}
         extension={file.extension}
@@ -17,10 +17,10 @@ const ImageThumbnail = ({ file }: { file: Models.Document }) => {
       />
 
       <div className='flex flex-col'>
-        <p className='subtitle-2 mb-1'>{file.name}</p>
+        <p className='subtitle-2 mb-1 dark:!text-gray-300'>{file.name}</p>
         <FormattedDateTime 
           date={file.$createdAt} 
-          className='caption'
+          className='caption dark:!text-gray-400'
         />
       </div>
     </div>
@@ -30,23 +30,36 @@ const ImageThumbnail = ({ file }: { file: Models.Document }) => {
 const DetailRow = ({ label, value }: { label: string, value: string | null }) => {
   return (
     <div className='flex'>
-      <p className='file-details-label text-left'>{label}</p>
-      <p className='file-details-value text-left'>{value}</p>
+      <p className='file-details-label text-left dark:!text-gray-300'>{label}</p>
+      <p className='file-details-value text-left dark:!text-white'>{value}</p>
     </div>
   )
 }
 
 export const FileDetails = ({ file }: { file: Models.Document }) => {
   const [fileOwnerName, setFileOwnerName] = useState<string | null>(null);
+  const cachedFileOwner = useMemo(() => new Map<string, string>(), []);
 
   useEffect(() => {
     const fetchFileOwner = async () => {
-      const response = await getUserById(file.ownerId)
-      setFileOwnerName(response?.fullName);
+      if(cachedFileOwner.has(file.ownerId)) {
+        setFileOwnerName(cachedFileOwner.get(file.ownerId) || null);
+      }
+      else {
+        const fileOwnerDetails = await getUserById(file.ownerId);
+        const ownerName = fileOwnerDetails?.fullName;
+
+        setFileOwnerName(ownerName);
+        cachedFileOwner.set(file.ownerId, ownerName || '');
+      }
     };
 
     fetchFileOwner();
-  }, [file.ownerId]);
+  }, [file.ownerId, cachedFileOwner]);
+
+  useEffect(() => {
+    console.log(cachedFileOwner)
+  }, [cachedFileOwner])
 
   return (
     <>
