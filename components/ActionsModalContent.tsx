@@ -120,7 +120,7 @@ export const ShareInput = ({ file, onInputChange, onRemove }: Props) => {
                   key={email}
                   className='flex items-center justify-between gap-2'
                 >
-                  <p className='subtitle-2'>{email}</p>
+                  <p className='subtitle-2 dark:!text-white'>{email}</p>
                   <Button 
                     onClick={() => onRemove(email)}
                     className='share-remove-user'
@@ -130,7 +130,7 @@ export const ShareInput = ({ file, onInputChange, onRemove }: Props) => {
                       alt='remove'
                       width={24}
                       height={24}
-                      className='rmeove-icon'
+                      className='remove-icon dark:!bg-slate-400'
                     />
                   </Button>
                 </li>
