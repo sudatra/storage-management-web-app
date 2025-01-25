@@ -8,16 +8,18 @@ import { getFiles } from '@/lib/actions/file.actions'
 import { Models } from 'node-appwrite'
 import { Thumbnail } from './Thumbnail'
 import { FormattedDateTime } from './FormattedDateTime'
+import { useDebounce } from 'use-debounce';
 
 const Search = () => {
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get('query') || '';
   const router = useRouter();
   const path = usePathname();
-
+  
   const [query, setQuery] = useState<string>('');
   const [results, setResults] = useState<Models.Document[]>([]);
   const [open, setOpen] = useState<boolean>(false);
+  const [debouncedQuery] = useDebounce(query, 300);
 
   useEffect(() => {
     if(!searchQuery) {
@@ -27,20 +29,21 @@ const Search = () => {
 
   useEffect(() => {
     const fetchFiles = async () => {
-      if(!query || query === '') {
+      if(debouncedQuery.length === 0) {
         setResults([]);
         setOpen(false);
 
-        return router.push(path.replace(searchParams.toString(), ''));
+        router.push(path.replace(searchParams.toString(), ''));
+        return;
       }
 
-      const files = await getFiles({ searchText: query });
+      const files = await getFiles({ types: [], searchText: debouncedQuery });
       setResults(files.documents);
       setOpen(true);
     }
 
     fetchFiles();
-  }, [query])
+  }, [debouncedQuery])
 
   const handleClickItem = (file: Models.Document) => {
     setOpen(false);
@@ -69,7 +72,7 @@ const Search = () => {
 
         {
           open === true && (
-            <ul className='search-result'>
+            <ul className='search-result dark:!bg-[#22262d]'>
               {
                 results.length > 0 ? (
                   results.map(file => (
@@ -86,7 +89,7 @@ const Search = () => {
                           className='size-9 min-w-9'
                         />
 
-                        <p className='subtitle-2 line-clamp-1 text-light-100'>{file.name}</p>
+                        <p className='subtitle-2 line-clamp-1 text-light-100 dark:!text-gray-300'>{file.name}</p>
                       </div>
 
                       <FormattedDateTime 
