@@ -2,13 +2,15 @@ import { Card } from '@/components/Card';
 import { CardSkeleton } from '@/components/CardSkeleton';
 import { Sort } from '@/components/Sort';
 import { getFiles } from '@/lib/actions/file.actions';
+import { getFileTypesParams } from '@/lib/utils';
 import { Models } from 'node-appwrite';
 import React from 'react'
 
 const Page = async ({ params }: SearchParamProps) => {
   const type = ((await params)?.type as string) || "";
+  const types = getFileTypesParams(type) as FileType[];
 
-  const files = await getFiles();
+  const files = await getFiles({ types: types });
 
   return (
     <div className='page-container dark:!bg-[#1a1c20]'>
@@ -16,7 +18,7 @@ const Page = async ({ params }: SearchParamProps) => {
         <h1 className='h1 dark:text-white'>{type}</h1>
 
         <div className='total-size-section'>
-          <p className='body-1 dark:!text-light-200'>
+          <p className='body-1 dark:!text-light-200'> 
             Total: <span className='h5 dark:!text-gray-300'>0 MB</span>
           </p>
 
