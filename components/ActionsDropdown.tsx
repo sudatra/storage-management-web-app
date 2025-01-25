@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Dialog, DialogContent, DialogFooter, DialogHeader } from "@/components/ui/dialog"
 import {
   DropdownMenu,
@@ -22,6 +22,7 @@ import { deleteFile, renameFile, updateFileUsers } from '@/lib/actions/file.acti
 import { usePathname } from 'next/navigation'
 import { FileDetails } from './ActionsModalContent'
 import { ShareInput } from './ActionsModalContent'
+import { getCurrentUser, getUserById } from '@/lib/actions/user.actions'
 
 export const ActionsDropdown = ({ file }: { file: Models.Document }) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -30,6 +31,20 @@ export const ActionsDropdown = ({ file }: { file: Models.Document }) => {
   const [name, setName] = useState<string>(file.name);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [emails, setEmails] = useState<string[]>([]);
+  const [user, setUser] = useState<string | null>(null);
+  const [owner, setOwner] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchDetails = async () => {
+      const currentUser = await getCurrentUser();
+      const fileOwner = await getUserById(file.ownerId);
+
+      setUser(currentUser?.fullName);
+      setOwner(fileOwner?.fullName);
+    }
+
+    fetchDetails();
+  }, [file.ownerId]);
 
   const path = usePathname();
 
@@ -62,7 +77,17 @@ export const ActionsDropdown = ({ file }: { file: Models.Document }) => {
     setIsLoading(false)
   }
 
+  useEffect(() => {
+    console.log("user", user);
+    console.log("owner", owner)
+  })
+
   const handleRemoveUser = async (email: string) => {
+    if(user !== owner) {
+      alert("No Access");
+      return;
+    }
+
     const updatedEmails = emails.filter((e) => e !== email);
     const success = await updateFileUsers({ fileId: file.$id, emails: updatedEmails, path: path });
 
@@ -135,7 +160,7 @@ export const ActionsDropdown = ({ file }: { file: Models.Document }) => {
 
               <Button 
                 onClick={handleAction}
-                className='modal-submit-button dark:!text-white !text-black'
+                className={`modal-submit-button dark:!text-white !text-black ${(owner !== user) ? 'pointer-events-none' : ''}`}
               >
                 <p className='capitalize'>{value}</p>
                 {
