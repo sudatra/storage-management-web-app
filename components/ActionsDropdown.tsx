@@ -23,6 +23,7 @@ import { usePathname } from 'next/navigation'
 import { FileDetails } from './ActionsModalContent'
 import { ShareInput } from './ActionsModalContent'
 import { getCurrentUser, getUserById } from '@/lib/actions/user.actions'
+import { toast } from 'sonner'
 
 export const ActionsDropdown = ({ file }: { file: Models.Document }) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -84,7 +85,17 @@ export const ActionsDropdown = ({ file }: { file: Models.Document }) => {
 
   const handleRemoveUser = async (email: string) => {
     if(user !== owner) {
-      alert("No Access");
+      toast("No Access Found", {
+        description: <p className='font-bold text-light-100 dark:!text-gray-300'>You do not have permissions to edit file details!!</p>,
+        action: {
+          label: (
+            <div className='rounded-md p-2 dark:!text-black cursor-pointer'>
+              Close
+            </div>
+          ),
+          onClick: () => {}
+        }
+      })
       return;
     }
 
