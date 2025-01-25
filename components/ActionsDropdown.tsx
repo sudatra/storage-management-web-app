@@ -78,11 +78,6 @@ export const ActionsDropdown = ({ file }: { file: Models.Document }) => {
     setIsLoading(false)
   }
 
-  useEffect(() => {
-    console.log("user", user);
-    console.log("owner", owner)
-  })
-
   const handleRemoveUser = async (email: string) => {
     if(user !== owner) {
       toast("No Access Found", {

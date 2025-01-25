@@ -12,8 +12,6 @@ const Page = async ({ searchParams, params }: SearchParamProps) => {
   const searchText = ((await searchParams)?.query as string) || '';
   const sort = ((await searchParams)?.sort as string) || '';
 
-  console.log(types)
-
 
   const files = await getFiles({ types: types, searchText, sort });
 
