@@ -1,4 +1,6 @@
+import { Chart } from "@/components/Chart";
 import { getFiles, getTotalSpaceUsed } from "@/lib/actions/file.actions";
+import { getUsageSummary } from "@/lib/utils";
 
 export default async function Home() {
   const [files, totalSpace] = await Promise.all([
@@ -6,9 +8,13 @@ export default async function Home() {
     getTotalSpaceUsed()
   ]);
 
+  const usageSummary = getUsageSummary(totalSpace);
+
   return (
-    <div className="flex-center h-screen">
-      <h1 className="h1 dark:!text-white">Storage Manager</h1>
+    <div className="dashboard-container">
+      <section>
+        <Chart used={totalSpace.used} />
+      </section>
     </div>
   );
 }
